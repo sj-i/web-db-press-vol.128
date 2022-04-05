@@ -1,0 +1,35 @@
+Server Software:        Apache/2.4.53
+Server Hostname:        localhost
+Server Port:            8081
+
+Document Path:          /ja/blog/
+Document Length:        28182 bytes
+
+Concurrency Level:      50
+Time taken for tests:   4.589 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      28477000 bytes
+HTML transferred:       28182000 bytes
+Requests per second:    217.93 [#/sec] (mean)
+Time per request:       229.427 [ms] (mean)
+Time per request:       4.589 [ms] (mean, across all concurrent requests)
+Transfer rate:          6060.66 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.2      0       2
+Processing:    34  222  28.5    226     291
+Waiting:       33  222  28.5    225     290
+Total:         35  223  28.4    226     291
+
+Percentage of the requests served within a certain time (ms)
+  50%    226
+  66%    230
+  75%    233
+  80%    235
+  90%    240
+  95%    244
+  98%    255
+  99%    260
+ 100%    291 (longest request)

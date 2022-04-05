@@ -1,0 +1,48 @@
+version: '3'
+
+volumes:
+  php_socket:
+
+services:
+  roadrunner:
+    build:
+      context: application
+      dockerfile: ../containers/roadrunner/Dockerfile
+    volumes:
+      - ./containers/roadrunner/.rr.yaml:/etc/rr.yaml:ro
+      - /var/www/html/var/log
+    ports:
+      - "8080:80"
+  apache-modphp:
+    build:
+      context: application
+      dockerfile: ../containers/apache-modphp/Dockerfile
+    volumes:
+      - ./containers/apache-modphp/apache-site.conf:/etc/apache2/sites-available/000-default.conf:ro
+      - ./containers/apache-modphp/apache-mpm.conf:/etc/apache2/mods-available/mpm_prefork.conf:ro
+      - /var/www/html/var/log
+    ports:
+      - "8081:80"
+  nginx:
+    build:
+      context: application
+      dockerfile: ../containers/nginx-fpm/nginx/Dockerfile
+    ports:
+      - "8082:80"
+    volumes:
+      - ./containers/nginx-fpm/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./containers/nginx-fpm/nginx/nginx-default.conf:/etc/nginx/conf.d/default.conf:ro
+      - /var/www/html/var/log
+      - php_socket:/var/run
+    depends_on:
+      - fpm
+  fpm:
+    build:
+      context: application
+      dockerfile: ../containers/nginx-fpm/fpm/Dockerfile
+    volumes:
+      - ./containers/nginx-fpm/fpm/pool.conf:/usr/local/etc/php-fpm.d/zz-pool.conf:ro
+      - /var/www/html/var/log
+      - php_socket:/var/run
+    ports:
+      - "9008:9008"

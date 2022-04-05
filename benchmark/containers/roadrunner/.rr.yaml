@@ -1,0 +1,27 @@
+version: "2.7"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+server:
+  command: "php -dopcache.enable_cli=1 /var/www/html/worker.php"
+
+http:
+  address: :80
+  pool:
+    num_workers: 8
+    max_jobs: 0
+  middleware: [ "static" ]
+  static:
+    dir: "/var/www/html/public/"
+    forbid: []
+    calculate_etag: false
+    weak: false
+    allow: [".css", ".js", ".woff2", ".woff", ".ttf"]
+
+reload:
+  interval: 1s
+  patterns: [ ".php" ]
+  services:
+    http:
+      recursive: true
+      dirs: [ "/var/www/html" ]
